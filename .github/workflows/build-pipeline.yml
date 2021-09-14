@@ -32,13 +32,7 @@ jobs:
          docker/metadata-action@v3
          secret:docker/login-action@v1
          docker/build-push-action@v2
-         
-
-          
-          
-          
-  
-
+   
    deploy:
     needs: [build, weekday_job]
     runs-on: ubuntu-latest
@@ -65,4 +59,57 @@ jobs:
          test
          echo
       
+name: AccentureWorkshop
 
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install dependencies
+        run: npm ci
+      - name: Running tests
+        run: npm test
+      - name: Run typescript lint and format check
+        run: npm run lint:ts
+      - name: Run styles lint and format check
+        run: npm run lint:css
+        env:
+          FIRST_NAME: Synne
+          MIDDLE_NAME: Gaaseidnes
+          LAST_NAME: Thorsen
+      - name: Secret handling
+        run: echo $SECRET is my secret
+        env: 
+          SECRET: ${{secrets.PASSWORD}}
+      # Step 3 - Add tests and linting here
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: dist
+      # Step 2: Add deploy to Github pages here! Hot tip - The solution is in the Readme
