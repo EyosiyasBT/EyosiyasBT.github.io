@@ -16,6 +16,7 @@ jobs:
           FIRST_NAME: Mona
           MIDDLE_NAME: The
           LAST_NAME: Octocat
+          secret: password
    build:
     runs-on: ubuntu-latest
     steps:
@@ -31,6 +32,8 @@ jobs:
          docker/metadata-action@v3
          secret:docker/login-action@v1
          docker/build-push-action@v2
+         
+
           
           
           
