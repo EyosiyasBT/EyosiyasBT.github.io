@@ -84,14 +84,7 @@ jobs:
         run: npm run lint:ts
       - name: Run styles lint and format check
         run: npm run lint:css
-        env:
-          FIRST_NAME: Synne
-          MIDDLE_NAME: Gaaseidnes
-          LAST_NAME: Thorsen
-      - name: Secret handling
-        run: echo $SECRET is my secret
-        env: 
-          SECRET: ${{secrets.PASSWORD}}
+
       # Step 3 - Add tests and linting here
 
   deploy:
