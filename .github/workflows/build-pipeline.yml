@@ -7,12 +7,15 @@ on:
     branches: [ develop ]
 
 jobs:
-   build2:
-    add-beans:
-    grind-beans:
-     needs: add-beans
-    brew-coffee:
-     needs: [add-beans, grind-beans]
+   weekday_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Hello world when it's Monday"
+        run: echo "Hello $FIRST_NAME $MIDDLE_NAME $LAST_NAME, today is Monday!"
+        env:
+          FIRST_NAME: Mona
+          MIDDLE_NAME: The
+          LAST_NAME: Octocat
    build:
     runs-on: ubuntu-latest
     steps:
@@ -26,8 +29,8 @@ jobs:
           develop
   
 
-  deploy:
-    needs: build
+   deploy:
+    needs: [build, weekday_job]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
