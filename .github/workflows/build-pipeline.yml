@@ -16,7 +16,7 @@ jobs:
           FIRST_NAME: Mona
           MIDDLE_NAME: The
           LAST_NAME: Octocat
-          secret: password
+          secret: PASSWORD
    build:
     runs-on: ubuntu-latest
     steps:
