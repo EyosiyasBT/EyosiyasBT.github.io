@@ -7,7 +7,16 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
+   weekday_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Hello world when it's Monday"
+        run: echo "Hello $FIRST_NAME $MIDDLE_NAME $LAST_NAME, today is Monday!"
+        env:
+          FIRST_NAME: Mona
+          MIDDLE_NAME: The
+          LAST_NAME: Octocat
+   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,8 +27,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
           develop
-  deploy:
-    needs: build
+  
+
+   deploy:
+    needs: [build, weekday_job]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,3 +47,9 @@ jobs:
         with:
           branch: gh-pages
           folder: dist
+          
+      - name: Run typescript lint and format check
+        run: npm run lint:ts
+      - name: Run styles lint and format check
+        run: npm run lint:css
+
